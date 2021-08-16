@@ -20,8 +20,6 @@ dt_mtn = datetime.datetime.now(tz=pytz.timezone('Asia/Seoul'))
 
 bot = commands.Bot(command_prefix='~', intents=intents)  # 프리픽스 설정
 
-token = 'ODIyMzgxMDk5MTk0Nzc3NjIw.YFRcFQ.fZJ5TyVzYScaFQ2gLD7NOr00D4o'  # 디스코드 봇 토큰 (Test 봇)
-
 log_channel_id = 828229073636687912  # 원래 봇은 824984470972661800
 log_channel = bot.get_channel(log_channel_id)
 
@@ -414,5 +412,5 @@ async def on_command_error(ctx, error):  # 예외 처리 싫으시면 pass 치�
                          icon_url="https://cdn.discordapp.com/avatars/806729801086926869/6d3c0df30e9a81cddf3622e630978b0c.png")
         await ctx.send(embed=embed)
 
-
-bot.run(token)
+acces_token = os.environ["BOT_TOKEN"]
+bot.run(acces_token)

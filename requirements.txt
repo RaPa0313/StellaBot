@@ -1,0 +1,7 @@
+discord.py
+os
+subprocess
+pytz
+json
+random
+datetime

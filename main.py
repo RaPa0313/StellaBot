@@ -20,6 +20,8 @@ dt_mtn = datetime.datetime.now(tz=pytz.timezone('Asia/Seoul'))
 
 bot = commands.Bot(command_prefix='~', intents=intents)  # 프리픽스 설정
 
+token = 'ODIyMzgxMDk5MTk0Nzc3NjIw.YFRcFQ.0YasDYTzBWKkScB88jajSsRPn1M'  # 디스코드 봇 토큰 (Test 봇)
+
 log_channel_id = 828229073636687912  # 원래 봇은 824984470972661800
 log_channel = bot.get_channel(log_channel_id)
 
@@ -49,12 +51,12 @@ light_grey = c.Colour.light_grey()
 darker_grey = c.Colour.darker_grey()
 blurple = c.Colour.blurple()
 greyple = c.Colour.greyple()
+
+
 # ---------- 색상표 끝 ----------
 
 # ---------- 이모지표 시작 ----------
-emoji_stella = "<:Stella_Icon:854714421977022495>"
-
-
+# emoji_test =
 # ---------- 이모지표 끝 ----------
 
 # 봇이 시작할때 작동
@@ -66,7 +68,7 @@ async def on_ready():
     await bot.change_presence(status=discord.Status.online)
     await bot.change_presence(activity=discord.Game(name="개발"))
 
-    presence_alarm = bot.get_channel(861136275130023976)
+    presence_alarm = bot.get_channel(822368253119561772)
 
     dt_year = (dt_mtn.strftime('%Y'))
     dt_month = (dt_mtn.strftime('%m'))
@@ -84,21 +86,18 @@ async def on_ready():
 
 # 굿모닝
 @bot.command()
-@commands.cooldown(1, 10, commands.BucketType.user)
 async def 굿모닝(ctx):
-    await ctx.send(":white_sun_small_cloud: **좋은 아침입니다!**")
+    await ctx.send(":white_sun_small_cloud:**좋은 아침입니다!**")
 
-# 굿나잇
 @bot.command()
-@commands.cooldown(1, 10, commands.BucketType.user)
 async def 굿나잇(ctx):
-    await ctx.send(":crescent_moon: **오늘 하루도 수고하셨습니다~**")
+    await ctx.send(":night_with_stars:**오늘도 수고하셨습니다, 좋은 저녁되세요!**")
 
 
 @bot.command()
 @commands.has_permissions(administrator=True)
 @commands.cooldown(1, 5, commands.BucketType.guild)
-async def DM(ctx, user_id=None, *, args=None):
+async def dm(ctx, user_id=None, *, args=None):
     if user_id != None and args != None:
         try:
             target = await bot.fetch_user(user_id)
@@ -109,6 +108,24 @@ async def DM(ctx, user_id=None, *, args=None):
 
         except:
             await ctx.send("그 유저에게는 DM을 보낼 수 없습니다!")
+
+    else:
+        await ctx.send("에러")
+
+
+# DM All 기능 (작동 안함)
+@bot.command()
+@commands.has_permissions(administrator=True)
+async def dm_all(ctx, *, args=None):
+    if args != None:
+        members = ctx.guild.members
+        for member in members:
+            try:
+                await member.send(args)
+                print("'" + args + "'>>> 전송 완료 >>>" + member.name)
+
+            except:
+                print("그 유저에게는 DM을 보낼 수 없습니다!")
 
     else:
         await ctx.send("에러")
@@ -147,57 +164,51 @@ async def 밴(ctx, member: discord.Member, *, reason=None):
 async def 명령어(ctx):
     embed = discord.Embed(colour=purple, title='<:Stella_Icon:854714421977022495> Stella Bot 명령어 리스트')
     embed.add_field(name='상태 관련 명령어', value='~핑, ~서버정보, ~굿모닝, ~굿나잇', inline=False)
-    embed.add_field(name='서버 관리 명령어', value='~킥, ~밴, ~공지, ~DM', inline=False)
-    embed.add_field(name='포인트 명령어', value='~출첵, ~출첵순위, ~포인트, ~포인트순위, ~랜덤포인트', inline=False)
+    embed.add_field(name='서버 관리 명령어', value='~킥, ~밴, ~공지, ~dm, ~dm_all', inline=False)
+    embed.add_field(name='포인트 명령어', value='~출첵, ~출첵순위, ~포인트, ~포인트 순위, 랜덤포인트', inline=False)
     embed.set_footer(text='개발 : Dos0313')
     embed.set_thumbnail(
         url="https://cdn.discordapp.com/avatars/806729801086926869/6d3c0df30e9a81cddf3622e630978b0c.png")
     await ctx.send(embed=embed)
 
-@bot.event
-async def on_message(message):
-    if '시발' in message.content:
-        await message.delete()
-        await message.channel.send(":face_with_symbols_over_mouth: **욕설 사용이 감지되었습니다!** (욕설 사용을 삼가해주세요!)")
 
 # 출첵하기 ------------------------------------------------------ 쿨타임 없음/횟수 표시 안됨
 @bot.command(aliases=["ㅊㅊ"])
-@commands.cooldown(1, 86400, commands.BucketType.user)
+@commands.cooldown(1, 86400, commands.BucketType.guild)
 async def 출첵(ctx):
-    if ctx.channel.id == 771507018301308968:
-        await open_account(ctx.author)
+    await open_account(ctx.author)
 
-        user = ctx.author
-        users = await get_bank_data()
+    user = ctx.author
+    users = await get_bank_data()
 
-        dt_year = (dt_mtn.strftime('%Y'))
-        dt_month = (dt_mtn.strftime('%m'))
-        dt_day = (dt_mtn.strftime('%d'))
+    dt_year = (dt_mtn.strftime('%Y'))
+    dt_month = (dt_mtn.strftime('%m'))
+    dt_day = (dt_mtn.strftime('%d'))
 
-        cc_point = (50000)
+    cc_point = (50000)
 
-        cc_add_amt = (1)
+    cc_add_amt = (1)
 
-        cc_amt = users[str(user.id)]["cc_amt"]
+    cc_amt = users[str(user.id)]["cc_amt"]
 
-        users[str(user.id)]["point"] += cc_point
+    users[str(user.id)]["point"] += cc_point
 
-        users[str(user.id)]["cc_amt"] += cc_add_amt
+    users[str(user.id)]["cc_amt"] += cc_add_amt
 
-        with open("point.json", "w") as f:
-            json.dump(users, f)
+    with open("point.json", "w") as f:
+        json.dump(users, f)
 
-        await ctx.send(
-            f"<:Stella_Icon:854714421977022495> `{dt_year}년 {dt_month}월 {dt_day}일` **출석 체크를 완료 하였습니다!** [ <:plusicon:824447751654867005> **{cc_point}** ] [{cc_amt + 1}회]")
+    await ctx.send(
+        f"<:Stella_Icon:854714421977022495> `{dt_year}년 {dt_month}월 {dt_day}일` **출석 체크를 완료 하였습니다!** [ <:plusicon:824447751654867005> **{cc_point}** ] [{cc_amt + 1}회]")
 
-        print(f"출첵 이벤트 : {user} + {cc_point}")
+    print(f"출첵 이벤트 : {user} + {cc_point}")
 
 
 # ------------------------------------------------------------------------------
 
 # 출첵 순위 확인
 @bot.command()
-async def 출첵순위(ctx,x = 10):
+async def 출첵순위(ctx, x=10):
     users = await get_bank_data()
     leader_board = {}
     total = []
@@ -207,24 +218,25 @@ async def 출첵순위(ctx,x = 10):
         leader_board[total_amount] = name
         total.append(total_amount)
 
-    total = sorted(total,reverse=True)
+    total = sorted(total, reverse=True)
 
-    em = discord.Embed(colour=blue , title = f"<:stella:778033418193731674>출첵 횟수 Top {x}")
+    em = discord.Embed(colour=blue, title=f"<:Stella_Icon:854714421977022495>출첵 횟수 Top {x}")
     index = 1
     for amt in total:
         id_ = leader_board[amt]
         member = bot.get_user(id_)
         name = member.name
-        em.add_field(name = f"{index}. {name}" , value=f"<:check_box:824447802477772820> {amt}회", inline=False)
+        em.add_field(name=f"{index}. {name}", value=f"<:check_box:824447802477772820> {amt}회", inline=False)
         if index == x:
             break
         else:
             index += 1
 
-    await ctx.send(embed = em)
+    await ctx.send(embed=em)
+
 
 @bot.command()
-async def 포인트순위(ctx,x = 10):
+async def 포인트순위(ctx, x=10):
     users = await get_bank_data()
     leader_board = {}
     total = []
@@ -234,21 +246,21 @@ async def 포인트순위(ctx,x = 10):
         leader_board[total_amount] = name
         total.append(total_amount)
 
-    total = sorted(total,reverse=True)
+    total = sorted(total, reverse=True)
 
-    em = discord.Embed(colour=blue , title = f"<:stella:778033418193731674>포인트 Top {x}")
+    em = discord.Embed(colour=blue, title=f"<:Stella_Icon:854714421977022495>포인트 Top {x}")
     index = 1
     for amt in total:
         id_ = leader_board[amt]
         member = bot.get_user(id_)
         name = member.name
-        em.add_field(name = f"{index}. {name}" , value=f":regional_indicator_p: {amt}", inline=False)
+        em.add_field(name=f"{index}. {name}", value=f":regional_indicator_p: {amt}", inline=False)
         if index == x:
             break
         else:
             index += 1
 
-    await ctx.send(embed = em)
+    await ctx.send(embed=em)
 
 
 # 포인트 확인 @bot.command(aliases=["bal"]) 축약 ㅆㄱㄴ이누
@@ -310,20 +322,21 @@ async def get_bank_data():
 # 서버 정보
 @bot.command()
 async def 서버정보(ctx):
-    user_embed = discord.Embed(colour=magenta, title=f"<:Stella_Icon:854714421977022495> {ctx.guild.name} 서버 정보")
+    user_embed = discord.Embed(colour=magenta, title="<:Stella_Icon:854714421977022495> 서버 정보")
     member_count = ctx.guild.member_count
-    user_embed.add_field(name=':construction_worker: 서버 주인', value=f"= {ctx.guild.owner.name}", inline=False)
-    user_embed.add_field(name=':grinning: 서버 유저수', value=f"= {member_count}", inline=False)
+    user_embed.add_field(name=':construction_worker: 서버 주인 :', value=f"{ctx.guild.owner.name}", inline=False)
+    user_embed.add_field(name=':grinning: 서버 유저수 :', value=f"{member_count}", inline=False)
     user_embed.set_footer(text='Stella Bot#9903',
                           icon_url="https://cdn.discordapp.com/avatars/806729801086926869/6d3c0df30e9a81cddf3622e630978b0c.png")
 
     await ctx.send(embed=user_embed)
 
-# 공지 기능 (문제 발생!)
+
+# 공지 기능 (지금 공지 올릴때 띄어쓰기 하면 뒤에 짤림 수정 바람 Lynn_))
 @bot.command()
 @commands.has_permissions(administrator=True)
 async def 공지(ctx, *, args):
-    channel = bot.get_channel(861136275130023976)
+    channel = bot.get_channel(822368253119561772)
 
     manager = ctx.author.name
 
@@ -336,20 +349,28 @@ async def 공지(ctx, *, args):
 
     await channel.send(embed=alarm)
 
+
+@bot.command()
+@commands.has_permissions(administrator=True)
+async def linux(ctx, *, args):
+    # 윈도우일 경우 cls로 대체
+    os.system('clear')
+    output = subprocess.check_output(args, shell=True);
+    await ctx.send("```" + output.decode('utf-8') + "```")
+
+
 @bot.event
 async def on_member_join(member):
-    auth = bot.get_channel(777149133722091540)
-    role = discord.utils.get(member.server.roles, name="No Auth")
-    await bot.add_roles(member, role)
+    auth = bot.get_channel(822372594102566942)
     await auth.send(member.mention + "\n" + """<#777149133722091540> 에서 **인증을** 하지 않을 시에는
 <:Stella_Icon:854714421977022495> Stella 서버 활동이 힘들 수 있습니다
 
-`인증 양식이 DM으로 전송 되었습니다`""")
+인증 양식이 DM으로 전송 되었습니다!""")
 
     await member.send("\n" + """<:line:805656688362520617><:line:805656688362520617><:line:805656688362520617><:line:805656688362520617><:line:805656688362520617>***[***<:Stella_Icon:854714421977022495>***Stella 인증 시스템]***<:line:805656688362520617><:line:805656688362520617><:line:805656688362520617><:line:805656688362520617><:line:805656688362520617>
 <:lunar:805653914472546312> 원활하게 Stella 커뮤니티를 이용하시려면 인증을 완료해야합니다!
 <:lunar:805653914472546312> 인증은 밑에 게시된 양식을 그대로 복사하여 제출 하시는것을 권장드립니다!
-                             
+
 **Stella 인증 양식**
 ```md
 * 이름 :
@@ -363,7 +384,7 @@ async def on_member_join(member):
 [* 가 붙은 항목은 필수 제출입니다][!]
 [거짓 정보 제출시에는 처벌 가능성이 있습니다][!]
 ```
-                             
+
 <:check_box:824447802477772820> 처리자 : @DO_S#0313 / @Dos0313 (Sub)#4725""")
 
 
@@ -395,7 +416,11 @@ async def on_command_error(ctx, error):  # 예외 처리 싫으시면 pass 치�
         embed = discord.Embed(colour=red)
         a = error.retry_after
         after = round(a, 2)
-        await ctx.send(f"<a:load:853480729945309204>**쿨다운 가동!** : `{after}초 남음`")
+        embed.add_field(name='<:Stella_Icon:854714421977022495>ON COOLDOWN!', value=f"**침 착 해**```남은 시간: {after}초```")
+        embed.set_thumbnail(url="https://i.pinimg.com/originals/72/b7/2f/72b72ff0c392a16c6b12e80bbe3473c5.gif")
+        embed.set_footer(text='Stella Bot#9903',
+                         icon_url="https://cdn.discordapp.com/avatars/806729801086926869/6d3c0df30e9a81cddf3622e630978b0c.png")
+        await ctx.send(embed=embed)
 
     elif isinstance(error, commands.MissingPermissions):
         embed = discord.Embed(colour=red)

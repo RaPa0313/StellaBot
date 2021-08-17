@@ -18,8 +18,6 @@ dt_mtn = datetime.datetime.now(tz=pytz.timezone('Asia/Seoul'))
 
 bot = commands.Bot(command_prefix='~', intents=intents)  # 프리픽스 설정
 
-token = 'ODIyMzgxMDk5MTk0Nzc3NjIw.YFRcFQ.0YasDYTzBWKkScB88jajSsRPn1M'  # 디스코드 봇 토큰 (Test 봇)
-
 log_channel_id = 828229073636687912  # 원래 봇은 824984470972661800
 log_channel = bot.get_channel(log_channel_id)
 

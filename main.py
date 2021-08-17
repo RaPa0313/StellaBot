@@ -170,34 +170,37 @@ async def 명령어(ctx):
 
 # 출첵하기 ------------------------------------------------------ 쿨타임 없음/횟수 표시 안됨
 @bot.command(aliases=["ㅊㅊ"])
-@commands.cooldown(1, 86400, commands.BucketType.guild)
 async def 출첵(ctx):
-    await open_account(ctx.author)
+    if (ctx.channel.id == '771507018301308968'):
+        await open_account(ctx.author)
 
-    user = ctx.author
-    users = await get_bank_data()
+        user = ctx.author
+        users = await get_bank_data()
 
-    dt_year = (dt_mtn.strftime('%Y'))
-    dt_month = (dt_mtn.strftime('%m'))
-    dt_day = (dt_mtn.strftime('%d'))
+        dt_year = (dt_mtn.strftime('%Y'))
+        dt_month = (dt_mtn.strftime('%m'))
+        dt_day = (dt_mtn.strftime('%d'))
 
-    cc_point = (50000)
+        cc_point = (50000)
 
-    cc_add_amt = (1)
+        cc_add_amt = (1)
 
-    cc_amt = users[str(user.id)]["cc_amt"]
+        cc_amt = users[str(user.id)]["cc_amt"]
 
-    users[str(user.id)]["point"] += cc_point
+        users[str(user.id)]["point"] += cc_point
 
-    users[str(user.id)]["cc_amt"] += cc_add_amt
+        users[str(user.id)]["cc_amt"] += cc_add_amt
 
-    with open("point.json", "w") as f:
-        json.dump(users, f)
+        with open("point.json", "w") as f:
+            json.dump(users, f)
 
-    await ctx.send(
-        f"<:Stella_Icon:854714421977022495> `{dt_year}년 {dt_month}월 {dt_day}일` **출석 체크를 완료 하였습니다!** [ <:plusicon:824447751654867005> **{cc_point}** ] [{cc_amt + 1}회]")
+        await ctx.send(
+            f"<:Stella_Icon:854714421977022495> `{dt_year}년 {dt_month}월 {dt_day}일` **출석 체크를 완료 하였습니다!** [ <:plusicon:824447751654867005> **{cc_point}** ] [{cc_amt + 1}회]")
 
-    print(f"출첵 이벤트 : {user} + {cc_point}")
+        print(f"출첵 이벤트 : {user} + {cc_point}")
+        
+    else:
+        await ctx.send('출석체크 채널로 지정된 곳에서 사용해주세요!')
 
 
 # ------------------------------------------------------------------------------

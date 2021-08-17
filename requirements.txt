@@ -1,6 +1,4 @@
 discord.py
-subprocess
 pytz
 json
-random
 datetime

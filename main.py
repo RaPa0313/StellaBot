@@ -19,6 +19,7 @@ dt_mtn = datetime.datetime.now(tz=pytz.timezone('Asia/Seoul'))
 bot = commands.Bot(command_prefix='~', intents=intents)  # 프리픽스 설정
 
 log_channel_id = 828229073636687912  # 원래 봇은 824984470972661800
+check_channel_id = 771507018301308968
 log_channel = bot.get_channel(log_channel_id)
 
 # if (ctx.channel.id == bot.channel): 이거 준비 해야겠다
@@ -171,7 +172,7 @@ async def 명령어(ctx):
 # 출첵하기 ------------------------------------------------------ 쿨타임 없음/횟수 표시 안됨
 @bot.command(aliases=["ㅊㅊ"])
 async def 출첵(ctx):
-    if (ctx.channel.id == '771507018301308968'):
+    if (ctx.channel.id == check_channel_id):
         await open_account(ctx.author)
 
         user = ctx.author

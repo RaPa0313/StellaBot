@@ -1,13 +1,11 @@
-import discord, asyncio, requests, aiohttp
-import config
+import discord
 import os
 import subprocess
 import pytz
 import json
-import aiofiles
 import random
 import datetime
-import io
+
 
 from discord import colour as c
 from discord.ext import commands, tasks
